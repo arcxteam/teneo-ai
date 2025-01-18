@@ -6,14 +6,14 @@ const axios = require('axios');
 const HttpsProxyAgent = require('https-proxy-agent');
 const chalk = require('chalk');
 
-console.log(chalk.cyan.bold(`███████╗██╗     ██╗  ██╗     ██████╗██╗   ██╗██████╗ ███████╗██████╗`));
-console.log(chalk.cyan.bold(`╚══███╔╝██║     ██║ ██╔╝    ██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗`));
-console.log(chalk.cyan.bold(`  ███╔╝ ██║     █████╔╝     ██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝`));
-console.log(chalk.cyan.bold(` ███╔╝  ██║     ██╔═██╗     ██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗`));
-console.log(chalk.cyan.bold(`███████╗███████╗██║  ██╗    ╚██████╗   ██║   ██████╔╝███████╗██║  ██║`));
-console.log(chalk.cyan.bold(`╚══════╝╚══════╝╚═╝  ╚═╝     ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝`));
-console.log(chalk.cyan.bold(`                 Running Teneo Node BETA CLI Version                 `));
-console.log(chalk.cyan.bold(`                t.me/zlkcyber *** github.com/zlkcyber                `));
+console.log(chalk.cyan.bold(`....`));
+console.log(chalk.cyan.bold(`...`));
+console.log(chalk.cyan.bold(`...`));
+console.log(chalk.cyan.bold(`...`));
+console.log(chalk.cyan.bold(`...`));
+console.log(chalk.cyan.bold(`...`));
+console.log(chalk.cyan.bold(`                 Running Teneo Node AI                               `));
+console.log(chalk.cyan.bold(`                 BY ZLKCyber and MODIFY BY 0xGREY                    `));
 
 let socket = null;
 let pingInterval;
@@ -257,8 +257,22 @@ async function main() {
   const localStorageData = await getLocalStorage();
   let access_token = localStorageData.access_token;
 
+  const isPm2 = !process.stdout.isTTY; // Deteksi jika berjalan di PM2
+  let proxy = null;
+
+  if (isPm2) {
+    console.log("Running under PM2. Defaulting to no proxy.");
+    proxy = null;
+    if (!access_token) {
+      console.error("Access token not found. Exiting...");
+      process.exit(1);
+    }
+    await startCountdownAndPoints();
+    await connectWebSocket(access_token, proxy);
+    return;
+  }
+
   rl.question('Do you want to use a proxy? (y/n): ', async (useProxy) => {
-    let proxy = null;
     if (useProxy.toLowerCase() === 'y') {
       proxy = await new Promise((resolve) => {
         rl.question('Please enter your proxy URL (e.g., http://username:password@host:port): ', (inputProxy) => {
@@ -315,5 +329,6 @@ async function main() {
     }
   });
 }
+
 //run
 main();
