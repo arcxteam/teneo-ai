@@ -13,10 +13,8 @@ async function readFile(filePath) {
         return [];
     }
 }
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+
+const isPm2 = !process.stdout.isTTY; // Deteksi jika berjalan di PM2
 
 class WebSocketClient {
     constructor(token, proxy = null) {
@@ -95,42 +93,55 @@ class WebSocketClient {
         }
     }
 }
+
 async function main() {
     try {
         const tokens = await readFile('tokens.txt');
-        rl.question('Do you want to use a proxy? (y/n): ', async (useProxyAnswer) => {
-            let useProxy = useProxyAnswer.toLowerCase() === 'y';
-            let proxies = [];
+        let proxies = [];
+
+        if (isPm2) {
+            console.log("Running under PM2. Defaulting to no interaction.");
+            proxies = await readFile('proxies.txt'); // Baca proxies.txt tanpa interaksi
+        } else {
+            const rl = readline.createInterface({
+                input: process.stdin,
+                output: process.stdout
+            });
+
+            const useProxyAnswer = await new Promise(resolve => rl.question('Do you want to use a proxy? (y/n): ', resolve));
+            const useProxy = useProxyAnswer.toLowerCase() === 'y';
 
             if (useProxy) {
                 proxies = await readFile('proxies.txt');
             }
 
-            if (tokens.length > 0) {
-                const wsClients = [];
+            rl.close();
+        }
 
-                for (let i = 0; i < tokens.length; i++) {
-                    const token = tokens[i];
-                    const proxy = proxies[i % proxies.length] || null;
-                    console.log(`Connecting WebSocket for account: ${i + 1} - Proxy: ${proxy || 'None'}`);
+        if (tokens.length > 0) {
+            const wsClients = [];
 
-                    const wsClient = new WebSocketClient(token, proxy);
-                    wsClient.connect();
-                    wsClients.push(wsClient);
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                }
+            for (let i = 0; i < tokens.length; i++) {
+                const token = tokens[i];
+                const proxy = proxies[i % proxies.length] || null; // Assign proxy in a round-robin fashion
+                console.log(`Connecting WebSocket for account: ${i + 1} - Proxy: ${proxy || 'None'}`);
 
-                process.on('SIGINT', () => {
-                    console.log('Program exited. Stopping pinging and disconnecting All WebSockets...');
-                    wsClients.forEach(client => client.stopPinging());
-                    wsClients.forEach(client => client.disconnect());
-                    process.exit(0);
-                });
-            } else {
-                console.log('No tokens found in tokens.txt - exiting...');
-                process.exit(0);
+                const wsClient = new WebSocketClient(token, proxy);
+                wsClient.connect();
+                wsClients.push(wsClient);
+                await new Promise(resolve => setTimeout(resolve, 1000));
             }
-        });
+
+            process.on('SIGINT', () => {
+                console.log('Program exited. Stopping pinging and disconnecting All WebSockets...');
+                wsClients.forEach(client => client.stopPinging());
+                wsClients.forEach(client => client.disconnect());
+                process.exit(0);
+            });
+        } else {
+            console.log('No tokens found in tokens.txt - exiting...');
+            process.exit(0);
+        }
     } catch (error) {
         console.error('Error in main function:', error);
     }
