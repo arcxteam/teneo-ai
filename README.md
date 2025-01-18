@@ -36,8 +36,8 @@ but `I think` there is no reason to ban the account, because this is not cheatin
 ## ✎ᝰ. RUNNING 
 - Clone Repository
 ```bash
-git clone https://github.com/Zlkcyber/teneo-farm.git
-cd teneo-farm
+git clone https://github.com/arcxteam/teneo-ai.git
+cd teneo-ai
 ```
 - Install Dependency
 ```bash
@@ -45,7 +45,7 @@ npm install
 ```
 - Run the script
 ```bash
-node main.js
+pm2 start main.js --name teneo-ai
 ```
 ## run for multy accounts: 
 - Manual put token in `tokens.txt` 1 line 1 token
@@ -69,5 +69,5 @@ node main.js
 
 - Start multy accounts
     ```bash
-    node multy.js
+    pm2 start multy.js --name multy-accounts
     ```
