@@ -4,7 +4,8 @@
   "description": "auto farm for teneo extension ",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node main.js",
+    "pm2-start": "node -e \"process.stdout.isTTY = false; require('./main.js')\""
   },
   "repository": {
     "type": "git",
