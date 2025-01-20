@@ -3,7 +3,8 @@
 Running Teneo Node BETA, CLI Version. <br>
 Teneo Is an Browser extension Node Based. <br>
 
-<img src="https://cdn.prod.website-files.com/665c71122bb2018f6ed3f9c9/66eaaf8660d0ba047f3f2058_screenshot.png" loading="lazy" width="266" height="Auto" alt="" srcset="https://cdn.prod.website-files.com/665c71122bb2018f6ed3f9c9/66eaaf8660d0ba047f3f2058_screenshot-p-500.png 500w, https://cdn.prod.website-files.com/665c71122bb2018f6ed3f9c9/66eaaf8660d0ba047f3f2058_screenshot.png 626w" sizes="(max-width: 479px) 100vw, (max-width: 991px) 33vw, 266px" class="image-32"> <br>
+![Teneo-Dashboard-01-20-2025_11_16_PM](https://github.com/user-attachments/assets/9b810b77-d41d-4941-bede-da2bb855d887)
+
 Get paid in $TENEO Tokens for simply running a node that accesses public social media data. It’s easy, passive, and you earn from the value you contribute.
 
 
