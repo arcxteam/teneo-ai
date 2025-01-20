@@ -32,7 +32,7 @@ but `I think` there is no reason to ban the account, because this is not cheatin
 
 ## 📌  ScreenShot Running With Javascript/NodeJs
 
-![alt text](image-1.png)
+![Desktop-screenshot-01-20-2025_11_36_PM](https://github.com/user-attachments/assets/1722bfc1-d522-4825-8f4a-8226a4982a4e)
 
 ## ✎ᝰ. RUNNING 
 - Clone Repository
@@ -44,7 +44,14 @@ cd teneo-ai
 ```bash
 npm install
 ```
-- Run the script
+- Run the script STEP-1
+```bash
+node main.js
+```
+1. input no (if not use proxy, so this running at CLI in your server)
+2. input login email and password then enter
+3. close with **CTRL+C**
+- Run the script STEP-2
 ```bash
 pm2 start main.js --name teneo-ai
 ```
